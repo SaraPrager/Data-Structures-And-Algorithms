@@ -23,13 +23,40 @@ const fibonacciIterative = (n) => {
     return result;
 };
 
-// O (2^n)
+// O(2^n)
 const fibonacciRecursive = (n) => {
     if (n < 2) {
         return n;
     }
 
     return fibonacciRecursive(n-1) + fibonacciRecursive(n - 2);
+};
+
+// O(n)
+const memFibonacciRecursive = (n) => {
+  const cache = {};
+  const fibonacci = (n) => {
+    if (cache[n] === undefined) {
+      if (n < 2) {
+        cache[n] = n;
+      } else {
+        cache[n] = fibonacci(n-1) + fibonacci(n - 2);
+      }
+    }
+    return cache[n];
+  }
+  
+  return fibonacci;
+};
+
+// O(n)
+const bottomUpFibonacci = (n) => {
+  const results = [0, 1];
+  for (let i = 2; i <= n; i++) {
+    results[i] = results[i-1] + results[i-2];
+  }
+
+  return results[n];
 };
 
 const testCases = [
@@ -58,4 +85,6 @@ const testCases = [
 testCases.forEach(testCase => {
   assert(fibonacciIterative(testCase.input) === testCase.output);
   assert(fibonacciRecursive(testCase.input) === testCase.output);
+  assert(memFibonacciRecursive()(testCase.input) === testCase.output);
+  assert(bottomUpFibonacci(testCase.input) === testCase.output);
 })
