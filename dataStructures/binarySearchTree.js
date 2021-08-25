@@ -1,3 +1,9 @@
+const DFS_ORDER = {
+    IN_ORDER: "IN_ORDER",
+    PRE_ORDER: "PRE_ORDER",
+    POST_ORDER: "POST_ORDER",
+}
+
 class Node {
     constructor(value) {
         this.right = null;
@@ -91,6 +97,32 @@ class BinarySearchTree {
 
         this._bfsRecursive(node.left, fn);
         this._bfsRecursive(node.right, fn);
+    }
+
+    dfsRecursive(order, fn) {
+       return this._dfsRecursive(this.root, order, fn);
+    }
+
+    _dfsRecursive(node, order, fn) {
+        if (!node) {
+            return;
+        }
+
+        if (order === DFS_ORDER.PRE_ORDER) {
+            fn(node.value);
+        }
+
+        this._dfsRecursive(node.left, order, fn);
+        
+        if (order === DFS_ORDER.IN_ORDER) {
+            fn(node.value);
+        }
+
+        this._dfsRecursive(node.right, order, fn);
+
+        if (order === DFS_ORDER.POST_ORDER) {
+            fn(node.value);
+        }
     }
 
     remove(value) {
