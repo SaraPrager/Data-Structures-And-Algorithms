@@ -51,6 +51,48 @@ class BinarySearchTree {
         return undefined;
     }
 
+    bfs() {
+        let currentNode = this.root;
+        const queue = [];
+        const values = [];
+        while (currentNode != null) {
+            if (currentNode.left) {
+                queue.push(currentNode.left);
+            }
+            if (currentNode.right) {
+                queue.push(currentNode.right);
+            }
+            values.push(currentNode.value);
+            currentNode = queue.shift();
+        }
+        return values;
+    }
+
+    bfsRecursive(fn) {
+        return this._bfsRecursive(this.root, fn);
+    }
+
+    _bfsRecursive(node, fn) {
+        if (!node) {
+            return;
+        }
+
+        if (node === this.root) {
+            fn(node.value);
+        }
+
+        if (node.left) {
+            fn(node.left.value);
+        }
+
+        if (node.right) {
+            fn(node.right.value);
+        }
+
+        this._bfsRecursive(node.left, fn);
+        this._bfsRecursive(node.right, fn);
+    }
+
     remove(value) {
         let currentNode = this.root;
         let parentNode = null;
